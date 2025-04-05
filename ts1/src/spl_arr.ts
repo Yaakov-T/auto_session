@@ -14,6 +14,9 @@ export function runer() {
     console.log(new Car(3,'alph',370).honk());
     console.log(new Rectangle(3,5).getArea());
     console.log(MathUtils.circleArea(3));
+    console.log(new Book('talmud', 25, 'rav ashy').print());
+    new Library().addBook(new Book('talmud', 25, 'rav ashy')).printAllBooks();
+    
     
     
     
@@ -71,7 +74,11 @@ const getCompletedTasks = (tasks: Task[]): string[] => {
     return tasks.filter(task => task.completed).map(task => task.title);
 }
 
-///////////////////////////// CLASS
+/////////////////////////////  CLASS  /////////////////////////////
+
+///////////////////////////////////////////////////Classes NO. 1
+
+
 
 class Dog {
     name: string;
@@ -88,7 +95,7 @@ class Dog {
 }
 
 
-///////////////////////////////////////////////////NO. 2
+///////////////////////////////////////////////////Classes NO. 2
 
 
 class BankAccount {
@@ -100,7 +107,7 @@ class BankAccount {
 
 
 
-///////////////////////////////////////////////////NO. 3
+///////////////////////////////////////////////////Classes NO. 3
 
 
 
@@ -127,7 +134,7 @@ class Car extends Vehicle{
 
 
 
-///////////////////////////////////////////////////NO. 4
+///////////////////////////////////////////////////Classes NO. 4
 
 
 
@@ -145,7 +152,7 @@ class Rectangle implements Shape{
 
 
 
-///////////////////////////////////////////////////NO. 5
+///////////////////////////////////////////////////Classes NO. 5
 
 
 class MathUtils {
@@ -156,7 +163,53 @@ class MathUtils {
 }
 
 
+
+
+///////////////////////////////////////////////////Classes NO. 6
+
+interface Printable {
+    print(): string;
+}
+
+class Product {
+    constructor(public name: string, public price: number) {}
+}
+
+class Book extends Product implements Printable {
+    constructor(name: string, price: number, public author: string) {
+        super(name, price);
+    }
+
+    print(): string {
+        return `Book: ${this.name}, Price: ${this.price}, Author: ${this.author}`;
+    }
+}
+
+
+///////////////////////////////////////////////////Classes NO. 7
+
  
+class Library {
+
+    private books: Book[];
+
+    constructor() {
+        this.books = [];
+    }
+
+
+    addBook(book: Book): Library {
+        this.books.push(book);
+        return this;
+    }
+
+    printAllBooks(): void {
+        this.books.forEach((book) => console.log(book.print()));
+    }
+}
+
+
+
 
 interface Post { 
 
