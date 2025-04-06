@@ -1,4 +1,4 @@
-export function runer() {
+export async function  runer  ():Promise<void> {
     greet("Haim");
     console.log(getNamesLength(["Haim", "Yael", "David"]));
     console.log(introduce("Haim", 30));
@@ -16,10 +16,15 @@ export function runer() {
     console.log(MathUtils.circleArea(3));
     console.log(new Book('talmud', 25, 'rav ashy').print());
     new Library().addBook(new Book('talmud', 25, 'rav ashy')).printAllBooks();
-    
-    
-    
-    
+    console.log(new BlogPost(242, 22, 'Typescript','this is a new blog about TS lenguage').getSummary());
+    const dataFetcher = new DataFetcher<BlogPost>('https://jsonplaceholder.typicode.com/posts');
+    try{
+    const fetchedData = await dataFetcher.fetchItem(1);
+    const blogPost = new BlogPost(fetchedData.userId, fetchedData.id, fetchedData.title, fetchedData.body);
+    console.log(blogPost.getSummary());
+    }catch (error) {
+        console.error(`${(error as Error).message}`);
+    }
 }
 
 /////////////////////////////
@@ -226,5 +231,26 @@ interface Post {
   class BlogPost  implements Post{
     constructor(public userId:number, public id:number, public title:string ,public body:string){
     }
+
+    getSummary ():string{
+        return `${this.title} - ${(this.body).substring(0 , 10)}...`
+    }
 }
 
+class DataFetcher <T>{
+    constructor(private url:string){};
+
+    
+    async fetchItem(id: number):Promise<T> {
+        try {
+            const response = await fetch(`${this.url}/${id}`);
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+            const data: T = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error(`Failed to fetch data: ${error}`);
+        }
+    }
+}
