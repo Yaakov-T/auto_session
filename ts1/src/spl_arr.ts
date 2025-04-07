@@ -1,4 +1,4 @@
-export async function  runer  ():Promise<void> {
+export async function runer():Promise<void> {
     greet("Haim");
     console.log(getNamesLength(["Haim", "Yael", "David"]));
     console.log(introduce("Haim", 30));
